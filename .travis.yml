@@ -2,6 +2,10 @@ sudo: required
 language: java
 jdk:
   - openjdk8
+  
+arch: 
+  - amd64
+  - arm64 
 
 # See https://docs.travis-ci.com/user/languages/java/#caching
 before_cache:
@@ -92,9 +96,15 @@ before_install:
   #- sudo apt-get update
   #- sudo apt-get install dart
   # switch to php7
-  - phpenv versions
-  - phpenv global 7.2.15
-  - php -v
+  - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
+      phpenv versions; 
+      phpenv global 7.2.31;
+      php -v;
+    else
+      phpenv versions;
+      phpenv global 7.2.15;
+      php -v;
+    fi
   # comment out below as installation failed in travis
   # Add rebar3 build tool and recent Erlang/OTP for Erlang petstore server tests.
   # - Travis CI does not support rebar3 [yet](https://github.com/travis-ci/travis-ci/issues/6506#issuecomment-275189490).
@@ -114,6 +124,9 @@ before_install:
   # show host table to confirm petstore.swagger.io is mapped to localhost
   - cat /etc/hosts
   # show java version
+  - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
+      sudo apt install openjdk-8-jdk;
+    fi
   - java -version
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
       openssl aes-256-cbc -K $encrypted_6e2c8bba47c6_key -iv $encrypted_6e2c8bba47c6_iv -in sec.gpg.enc -out sec.gpg -d ;
@@ -122,8 +135,21 @@ before_install:
     fi;
   - pushd .; cd website; yarn install; popd
   # install Deno
-  - curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.2
-  - export PATH="$HOME/.deno/bin:$PATH"
+  - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
+      git clone https://github.com/denoland/deno/;
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y -v;
+      sudo apt install libglib2.0-dev;
+      export PATH=$PATH:$HOME/.cargo/bin;
+      cd deno;
+      cargo build -vv;
+      cd ..;
+    else
+      curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.2;
+      export PATH="$HOME/.deno/bin:$PATH";
+    fi
+  - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
+      sudo apt-get install maven;
+    fi
 
 install:
   # Add Godeps dependencies to GOPATH and PATH
@@ -148,8 +174,8 @@ script:
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install 
+  - mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples 
 after_success:
   # push to maven repo
   - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
