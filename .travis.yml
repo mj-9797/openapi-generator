@@ -1,8 +1,8 @@
 sudo: required
-language: java
+language: python
 jdk:
   - openjdk8
-  
+python: 3.6
 arch: 
   - amd64
   - arm64 
