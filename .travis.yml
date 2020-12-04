@@ -139,11 +139,11 @@ before_install:
       git clone https://github.com/denoland/deno/;
       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y -v;
       sudo touch outfile.txt;
-      sudo apt install libglib2.0-dev 2>&1 | tee outfile.txt;
+      sudo apt install libglib2.0-dev > outfile.txt;
       export PATH=$PATH:$HOME/.cargo/bin;
       cd deno;
       sudo touch outfiles.txt;
-      cargo build -vv 2>&1 | tee outfiles.txt;
+      cargo build -vv 2>&1 > outfiles.txt;
       cd ..;
     else
       curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.2;
@@ -151,7 +151,7 @@ before_install:
     fi
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
       sudo touch outfiless.txt;
-      sudo apt-get install maven 2>&1 | tee outfiless.txt;
+      sudo apt-get install maven > outfiless.txt;
     fi
 
 install:
@@ -178,7 +178,7 @@ script:
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - sudo touch rahul.txt;
-  - mvn clean install 2>&1 | tee rahul.txt;
+  - mvn clean install > rahul.txt;
       
 after_success:
   # push to maven repo
