@@ -178,7 +178,7 @@ script:
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - sudo touch rahul.txt;
-  - mvn clean install > rahul.txt;
+  - sudo mvn clean install > rahul.txt;
       
 after_success:
   # push to maven repo
