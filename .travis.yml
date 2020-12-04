@@ -138,11 +138,9 @@ before_install:
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
       git clone https://github.com/denoland/deno/;
       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y -v;
-      sudo touch outfile.txt;
       sudo apt install libglib2.0-dev > outfile.txt;
       export PATH=$PATH:$HOME/.cargo/bin;
       cd deno;
-      sudo touch outfiles.txt;
       cargo build -vv 2>&1 > outfiles.txt;
       cd ..;
     else
@@ -150,7 +148,6 @@ before_install:
       export PATH="$HOME/.deno/bin:$PATH";
     fi
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
-      sudo touch outfiless.txt;
       sudo apt-get install maven > outfiless.txt;
     fi
 
@@ -177,8 +174,7 @@ script:
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  - sudo touch rahul.txt
-  - sudo mvn clean install > rahul.txt
+  - mvn clean install > rahul.txt
       
 after_success:
   # push to maven repo
