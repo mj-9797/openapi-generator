@@ -177,8 +177,8 @@ script:
   - /bin/bash ./bin/utils/detect_tab_in_java_class.sh
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
-  - sudo touch rahul.txt;
-  - sudo mvn clean install > rahul.txt;
+  - sudo touch rahul.txt
+  - sudo mvn clean install > rahul.txt
       
 after_success:
   # push to maven repo
