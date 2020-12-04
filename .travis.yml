@@ -176,6 +176,8 @@ script:
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
       mvn clean install >> rahul.txt;
+      cd ./modules/openapi-generator-cli;
+      cd ../../;
       docker build -t rahulimage -f ./modules/openapi-generator-cli/Dockerfile .;
       docker images;
     else
