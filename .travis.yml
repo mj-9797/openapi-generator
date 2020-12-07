@@ -125,7 +125,7 @@ before_install:
   - cat /etc/hosts
   # show java version
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
-      sudo apt install openjdk-8-jdk;
+      sudo apt install openjdk-8-jdk 2> /dev/null;
     fi
   - java -version
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
@@ -138,17 +138,17 @@ before_install:
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
       git clone https://github.com/denoland/deno/;
       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y -v;
-      sudo apt install libglib2.0-dev > outfile.txt;
+      sudo apt install libglib2.0-dev 2> /dev/null;
       export PATH=$PATH:$HOME/.cargo/bin;
       cd deno;
-      cargo build -vv 2>&1 > outfiles.txt;
+      cargo build -vv 2> /dev/null;
       cd ..;
     else
       curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.2;
       export PATH="$HOME/.deno/bin:$PATH";
     fi
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
-      sudo apt-get install maven > outfiless.txt;
+      sudo apt-get install maven 2> /dev/null;
     fi
 
 install:
@@ -175,10 +175,9 @@ script:
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
-      mvn clean install;
+      mvn clean install 2> /dev/null;
       cd ./modules/openapi-generator-cli;
-      mvn clean install;
-      cd ../..;
+      mvn clean install 2> /dev/null;
       cp docker-entrypoint.sh ./modules/openapi-generator-cli;
       sudo docker build -t img_name -f ./modules/openapi-generator-cli/Dockerfile .;
       docker images;
