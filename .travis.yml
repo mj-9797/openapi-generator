@@ -175,16 +175,16 @@ script:
   # run integration tests defined in maven pom.xml
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
-      mvn clean install
-      cd ./modules/openapi-generator-cli
-      mvn clean install
-      cd ../..
-      cp docker-entrypoint.sh ./modules/openapi-generator-cli
-      sudo docker build -t img_name -f ./modules/openapi-generator-cli/Dockerfile .
-      docker images
+      mvn clean install;
+      cd ./modules/openapi-generator-cli;
+      mvn clean install;
+      cd ../..;
+      cp docker-entrypoint.sh ./modules/openapi-generator-cli;
+      sudo docker build -t img_name -f ./modules/openapi-generator-cli/Dockerfile .;
+      docker images;
     else
-      mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error
-      mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error
+      mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
+      mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
     fi
   
 after_success:
