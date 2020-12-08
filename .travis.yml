@@ -179,7 +179,7 @@ script:
   
 after_success:
   # push to maven repo
-  - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "${TRAVIS_CPU_ARCH}" != "s390" ]; then
+  - if [ $SONATYPE_USERNAME ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "${TRAVIS_CPU_ARCH}" == "s390" ]; then
       if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ]; then
         echo "Publishing from branch $TRAVIS_BRANCH";
         mvn clean deploy -DskipTests=true -B -U -P release --settings CI/settings.xml;
@@ -209,7 +209,7 @@ after_success:
       fi;
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
-  - if [ $DOCKER_HUB_USERNAME ] && [ "${TRAVIS_CPU_ARCH}" != "s390" ]; then
+  - if [ $DOCKER_HUB_USERNAME ] && [ "${TRAVIS_CPU_ARCH}" == "s390" ]; then
       echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
       export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
       export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
@@ -239,7 +239,7 @@ after_success:
       fi;
     fi;
   ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
-  - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "${TRAVIS_CPU_ARCH}" != "s390" ]; then
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ -z $TRAVIS_TAG ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] && [ "${TRAVIS_CPU_ARCH}" == "s390" ]; then
       cd website;
       git config --global user.name "${GH_NAME}";
       git config --global user.email "${GH_EMAIL}";
