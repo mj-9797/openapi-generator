@@ -171,9 +171,8 @@ script:
   # WARN: Travis will timeout after 10 minutes of no stdout/stderr activity, which is problematic with mvn --quiet.
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
       mvn clean install 2> /dev/null;
-      cd ./modules/openapi-generator-cli;
-      mvn clean install 2> /dev/null;
-      cp ../../docker-entrypoint.sh .;
+      mvn verify 2> /dev/null;
+      cp docker-entrypoint.sh ./modules/openapi-generator-cli;
       sudo docker build -t img_name -f Dockerfile .;
       docker images;
     else
