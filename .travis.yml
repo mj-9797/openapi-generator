@@ -178,9 +178,6 @@ script:
       mvn clean install 2> /dev/null;
       cd ./modules/openapi-generator-cli;
       mvn clean install 2> /dev/null;
-      cp ../../docker-entrypoint.sh .;
-      sudo docker build -t img_name -f Dockerfile .;
-      docker images;
     else
       mvn -e --no-snapshot-updates --quiet --batch-mode --show-version clean install -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
       mvn -e --no-snapshot-updates --quiet --batch-mode --show-version verify -Psamples -Dorg.slf4j.simpleLogger.defaultLogLevel=error;
