@@ -235,7 +235,7 @@ after_success:
       fi;
       if [ 1 ]; then
           docker push abhisheknishant/openapi-generator-cliiii;
-          echo "Pushed to "abhisheknishant/openapi-generator-cliiii";
+          echo "Pushed to abhisheknishant/openapi-generator-cliiii";
       fi;
     fi;
   ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
