@@ -227,15 +227,15 @@ after_success:
       cp docker-entrypoint.sh ./modules/openapi-generator-cli;
       export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
       export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
-      docker build -t $DOCKER_CODEGEN_CLI_IMAGE_NAME ./modules/openapi-generator-cli;
+      docker build -t abhisheknishant/openapi-generator-cli ./modules/openapi-generator-cli;
       if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
-          docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest "abhisheknishant/openapi-generator-cli":${TRAVIS_TAG}-arm64;
+          docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest abhisheknishant/openapi-generator-cli:${TRAVIS_TAG}-arm64;
       else
-          docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest "abhisheknishant/openapi-generator-cli":$TRAVIS_TAG;
+          docker tag $DOCKER_CODEGEN_CLI_IMAGE_NAME:latest abhisheknishant/openapi-generator-cli:$TRAVIS_TAG;
       fi;
       if [ 1 ]; then
-          docker push $DOCKER_CODEGEN_CLI_IMAGE_NAME;
-          echo "Pushed to $DOCKER_CODEGEN_CLI_IMAGE_NAME";
+          docker push abhisheknishant/openapi-generator-cli;
+          echo "Pushed to "abhisheknishant/openapi-generator-cli";
       fi;
     fi;
   ## publish latest website, variables below are secure environment variables which are unavailable to PRs from forks.
