@@ -229,9 +229,9 @@ after_success:
       export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
       docker build -t abhisheknishant/openapi-generator-cliiii ./modules/openapi-generator-cli;
       if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
-          docker tag abhisheknishant/openapi-generator-cliiii:latest abhisheknishant/openapi-generator-cliiii:${TRAVIS_TAG}-arm64;
+          docker tag abhisheknishant/openapi-generator-cliiii:latest abhisheknishant/openapi-generator-cliiii:test-arm64;
       else
-          docker tag abhisheknishant/openapi-generator-cliiii:latest abhisheknishant/openapi-generator-cliiii:$TRAVIS_TAG;
+          docker tag abhisheknishant/openapi-generator-cliiii:latest abhisheknishant/openapi-generator-cliiii:test;
       fi;
       if [ 1 ]; then
           docker push abhisheknishant/openapi-generator-cliiii;
