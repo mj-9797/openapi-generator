@@ -209,16 +209,19 @@ after_success:
       fi;
     fi;
   ## docker: build and push openapi-generator-online to DockerHub
-  - if [ $DOCKER_HUB_USERNAME ] && [ "${TRAVIS_CPU_ARCH}" == "s390" ]; then
-      echo "$DOCKER_HUB_PASSWORD" | docker login --username=$DOCKER_HUB_USERNAME --password-stdin;
+  - if [ abhisheknishant ]; then
+      docker login --username=abhisheknishant --password=abhishek138;
       export cli_version=$(\mvn -o org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate -Dexpression=project.version | grep -v '\[');
       export build_date=$(date -u +"%Y-%m-%dT%H:%M:%SZ");
-      docker build --label=org.opencontainers.image.created=$build_date --label=org.opencontainers.image.title=openapi-generator-online --label=org.opencontainers.image.revision=$TRAVIS_COMMIT --label=org.opencontainers.image.version=$cli_version -t $DOCKER_GENERATOR_IMAGE_NAME ./modules/openapi-generator-online;
-      if [ ! -z "$TRAVIS_TAG" ]; then
-          docker tag $DOCKER_GENERATOR_IMAGE_NAME:latest $DOCKER_GENERATOR_IMAGE_NAME:$TRAVIS_TAG;
+      docker build -t abhisheknishant/openapi-generator-onlineee ./modules/openapi-generator-online;
+      if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
+          docker tag abhisheknishant/openapi-generator-onlineee:latest abhisheknishant/openapi-generator-onlineee:test-arm64;
+      else
+          docker tag abhisheknishant/openapi-generator-onlineee:latest abhisheknishant/openapi-generator-onlineee:test;
       fi;
-      if [ ! -z "$TRAVIS_TAG" ] || [ "$TRAVIS_BRANCH" = "master" ]; then
-          docker push $DOCKER_GENERATOR_IMAGE_NAME && echo "Pushed to $DOCKER_GENERATOR_IMAGE_NAME";
+      if [ 1 ]; then
+          docker push abhisheknishant/openapi-generator-onlineee;
+          echo "Pushed to abhisheknishant/openapi-generator-onlineee";
       fi;
     fi;
   ## docker: build cli image and push to Docker Hub
