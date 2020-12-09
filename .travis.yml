@@ -4,10 +4,7 @@ jdk:
 jobs:
   - arch: amd64
     language: java
-  - arch: arm64
-    language: python 
-    python: 3.6
-
+  - arch: arm64 
 # See https://docs.travis-ci.com/user/languages/java/#caching
 before_cache:
   - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
@@ -99,7 +96,7 @@ before_install:
   # switch to php7
   - phpenv versions
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
-      phpenv global 7.2.31 2> /dev/null;
+      phpenv global 7.2.31;
     else
       phpenv global 7.2.15;
     fi
@@ -137,7 +134,7 @@ before_install:
   - if [ "${TRAVIS_CPU_ARCH}" == "arm64" ]; then
       git clone https://github.com/denoland/deno/;
       curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y -v;
-      sudo apt install libglib2.0-dev 2> /dev/null;
+      sudo apt install -qq libglib2.0-dev;
       export PATH=$PATH:$HOME/.cargo/bin;
       cd deno;
       cargo build -vv 2> /dev/null;
