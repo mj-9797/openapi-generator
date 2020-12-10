@@ -138,7 +138,7 @@ before_install:
       cargo build -vv 2> /dev/null;
       cd ..;
     else
-      sh -s v1.1.2 < ./CI/deno_install.sh;
+      curl -fsSL https://deno.land/x/install/install.sh | sh -s v1.1.2;
       export PATH="$HOME/.deno/bin:$PATH";
     fi
 install:
